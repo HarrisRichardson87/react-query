@@ -11,13 +11,18 @@ const style = {
 
 export default function Post({id}){
     const postQuery = useQuery({
+        // 
         queryKey: ['posts', id],
         queryFn: (queryKey) => getPost(id)
     });
 
     const userQuery = useQuery({
+        // only fetch the user if the post query succeeded
         queryKey: ['users', id],
+
         enabled: postQuery?.data?.userId !== undefined,
+
+        // only fetch the user if the post query succeeded
         queryFn: (queryKey) => getUser(postQuery?.data?.userId)
     });
 
